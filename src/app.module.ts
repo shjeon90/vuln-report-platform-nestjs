@@ -9,6 +9,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { WriteupsModule } from './writeups/writeups.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { ReportsController } from './reports/reports.controller';
 
 @Module({
   imports: [AuthModule, ReportsModule, CommentsModule, FilesModule, DashboardModule, UsersModule, WriteupsModule],
@@ -17,6 +18,9 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(LoggerMiddleware)
+      // .forRoutes(ReportsController)  // Apply the middleware only to the ReportsController
+      .forRoutes('*');
   }
 }

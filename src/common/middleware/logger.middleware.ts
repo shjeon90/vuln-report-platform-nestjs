@@ -6,6 +6,9 @@ export class LoggerMiddleware implements NestMiddleware {
         const start = Date.now();
         const { method, url } = req;
 
+        // Whenever the request alived.
+        // console.log(`[${new Date().toISOString()}] ${method} ${url}`);
+
         res.on('finish', () => {
             const duration = Date.now() - start;
             console.log(`${method} ${url} ${res.statusCode} - ${duration}ms`);
