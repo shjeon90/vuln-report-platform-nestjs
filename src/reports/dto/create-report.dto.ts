@@ -4,15 +4,15 @@ import { ReportCategory } from "../entities/report.entity";
 export class CreateReportDto {
     @IsString()
     @IsNotEmpty()
-    title: string;
+    title!: string;
 
     @IsString()
     @IsNotEmpty()
-    content: string;
+    content!: string;
 
     @IsEnum(ReportCategory)
-    category: ReportCategory;
+    category!: ReportCategory;
 
     @IsNumber()
-    userId: number;
+    userId!: number;
 }

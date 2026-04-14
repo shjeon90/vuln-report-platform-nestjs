@@ -9,7 +9,7 @@ export class AuthService {
     ) {}
 
     async register(email: string, password: string, username: string): Promise<User> {
-        const user = this.usersService.create({
+        const user = await this.usersService.create({
             email,
             password,
             username
@@ -19,7 +19,7 @@ export class AuthService {
     }
 
     async login(email: string, password: string): Promise<boolean> {
-        const user = this.usersService.findByEmail(email);
+        const user = await this.usersService.findByEmail(email);
         if (!user) {
             throw new Error('User not found');
         }

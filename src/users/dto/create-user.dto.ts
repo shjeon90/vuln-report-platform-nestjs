@@ -2,13 +2,13 @@ import { IsEmail, IsNumber, IsOptional, IsString, MinLength } from "class-valida
 
 export class CreateUserDto {
     @IsEmail()
-    email: string;
+    email!: string;
 
     @IsString()
     @MinLength(6)
-    password: string;
+    password!: string;
 
     @IsString()
     @MinLength(2)
-    username: string;
+    username!: string;
 }

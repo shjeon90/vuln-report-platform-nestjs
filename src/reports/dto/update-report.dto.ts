@@ -21,5 +21,5 @@ export class UpdateReportDto {
     category?: ReportCategory;
 
     @IsNumber()
-    userId: number;
+    userId!: number;
 }

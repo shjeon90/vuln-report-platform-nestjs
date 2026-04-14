@@ -7,5 +7,5 @@ export class UpdateSeverityDto {
     // ) {}
 
     @IsEnum(ReportSeverity)
-    severity: ReportSeverity;
+    severity!: ReportSeverity;
 }
