@@ -13,6 +13,6 @@ export class CreateReportDto {
     @IsEnum(ReportCategory)
     category!: ReportCategory;
 
-    @IsNumber()
-    userId!: number;
+    // @IsNumber()
+    // userId!: number;
 }

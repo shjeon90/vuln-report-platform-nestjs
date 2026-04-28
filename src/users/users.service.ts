@@ -4,6 +4,7 @@ import { create } from 'domain';
 import { User, UserRole } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -15,41 +16,26 @@ export class UsersService {
     ) {}
 
     async create(createUserDto: CreateUserDto): Promise<User> {
-        // const existingUser = this.findByEmail(createUserDto.email);
-        // if (existingUser) {
-        //     throw new Error('User with this email already exists');
-        // }
-
-        // const user = new User(
-        //     this.nextId++,
-        //     createUserDto.email,
-        //     createUserDto.password,
-        //     createUserDto.username,
-        //     UserRole.USER,
-        //     new Date(),
-        //     [],
-        //     []
-        // );
-
-        // this.users.push(user);
-        // return user;
-
         const existingUser = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
         if (existingUser) {
             throw new ConflictException('User with this email already exists');
         }
 
+        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
         const user = this.usersRepository.create({
             email: createUserDto.email,
-            password: createUserDto.password,
+            // password: createUserDto.password,
+            password: hashedPassword,
             username: createUserDto.username,
             role: UserRole.USER,
         });
         return this.usersRepository.save(user);
     }
 
-    async validatePassword(password1: string, password2: string): Promise<boolean> {
-        return password1 === password2;
+    async validatePassword(password1: string, hashedPassword: string): Promise<boolean> {
+        // return password1 === password2;
+        return bcrypt.compare(password1, hashedPassword);
     }
 
     // findById(id: number): User | undefined {

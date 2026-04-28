@@ -1,18 +1,21 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import { UpdateSeverityDto } from './dto/update-severity.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Controller('reports')
+@UseGuards(JwtAuthGuard)
 export class ReportsController {
     constructor (
         private readonly reportsService: ReportsService
     ) {}
 
     @Post()
-    create(@Body() createReportDto: CreateReportDto) {
+    create(@Body() createReportDto: CreateReportDto, @CurrentUser() user) {
         return this.reportsService.create(createReportDto);
     }
 
